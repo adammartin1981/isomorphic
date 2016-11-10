@@ -1,19 +1,24 @@
 import {Server} from 'ws';
 import * as WebSocket from 'ws';
+import {FireBaseAdapter} from './firebase-adapter';
+import {NodeWebSocket} from './node-ws-websocket';
 
-const PORT:number = 8180;
+
 
 export class NodeWSServer {
     private wssServer:Server;
     private sockets:Array<NodeWebSocket> = [];
 
-    constructor() {
+    constructor(
+        private port:number,
+        private dbAdaptor:FireBaseAdapter
+    ) {
         console.log('NEW WS SERVER');
         this.wssServer = new Server({
-            port : PORT
+            port : this.port
         });
 
-        console.log(`RUNNING ON ${PORT}`);
+        console.log(`RUNNING ON ${this.port}`);
         this.init();
     }
 
@@ -29,29 +34,9 @@ export class NodeWSServer {
     public closeConnection(ws:NodeWebSocket):void {
         this.sockets.splice(this.sockets.indexOf(ws), 1);
     }
-}
 
-class NodeWebSocket {
-    constructor(private ws:WebSocket, private wss:NodeWSServer) {
-        this.init();
-    }
-
-    private init() {
-        this.ws.on('message', (msg) => {
-            this.onMessage(msg)
-        });
-
-        this.ws.on('close', (code, message) => {
-            this.onClose(code, message);
-        });
-    }
-
-    private onMessage(msg:any) {
-        console.log('MESSAGE RECEIVED', msg);
-        this.ws.send('RECEIVED:' + msg);
-    }
-
-    private onClose(code, message) {
-        this.wss.closeConnection(this);
+    public listenTo(nodeType:string, cb:Function) {
+        this.dbAdaptor.listenTo(nodeType, cb);
     }
 }
+

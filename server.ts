@@ -1,18 +1,15 @@
 import {NodeWSServer} from './server/node-ws-server';
+import {FireBaseAdapter} from './server/firebase-adapter';
 
-export class Server {
-    private _server:NodeWSServer;
-    constructor() {
-        console.log('SERVER CREATED');
-    }
+const PORT:number = 8180;
 
-    public init(nwServer:NodeWSServer) {
-        console.log('INIT');
-        this._server = nwServer;
-    }
-}
+let fbAdapter = new FireBaseAdapter();
 
-let server = new Server();
+fbAdapter.listenTo('adam', (val) => {
+    console.log('HEARD FROM ADAM', val);
+});
 
-server.init( new NodeWSServer());
+new NodeWSServer(PORT, fbAdapter);
+
+console.log('NEW SERVER STARTED');
 
