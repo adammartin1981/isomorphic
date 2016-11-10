@@ -1,0 +1,27 @@
+{
+  "name": "isomorphic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ts": "nodemon --watch 'server/**/*.ts' --exec 'ts-node' server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adammartin1981/isomorphic.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adammartin1981/isomorphic/issues"
+  },
+  "homepage": "https://github.com/adammartin1981/isomorphic#readme",
+  "devDependencies": {
+    "ts-node": "^1.7.0",
+    "typescript": "^2.0.8"
+  },
+  "dependencies": {
+    "ws": "^1.1.1"
+  }
+}
